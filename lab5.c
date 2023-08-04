@@ -11,7 +11,7 @@ int main (void)
 
 {
     int random_delay; //definir numero
-    wiringPiSetup () ;
+    wiringPiSetup () ; //setup
     pinMode(25, OUTPUT);
     pinMode(24, OUTPUT);
     digitalWrite(25, HIGH);
