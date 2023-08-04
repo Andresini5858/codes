@@ -10,7 +10,7 @@ Andres Lemus 21634
 int main (void)
 
 {
-    int random_delay;
+    int random_delay; //definir numero
     wiringPiSetup () ;
     pinMode(25, OUTPUT);
     pinMode(24, OUTPUT);
