@@ -12,7 +12,7 @@ int main (void)
 {
     int random_delay; //definir numero
     wiringPiSetup () ; //setup
-    pinMode(25, OUTPUT);
+    pinMode(25, OUTPUT); //HOla
     pinMode(24, OUTPUT);
     digitalWrite(25, HIGH);
     digitalWrite(24, LOW);
