@@ -17,7 +17,7 @@ int main (void)
     digitalWrite(25, HIGH);
     digitalWrite(24, LOW);
     srand(time(NULL));
-    for (;;)
+    for (;;)//Loop
     {    
         random_delay = rand();
 
