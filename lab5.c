@@ -12,26 +12,19 @@ int main (void)
 {
     int random_delay; //definir numero
     wiringPiSetup () ; //setup
-    pinMode(25, OUTPUT); //HOla
+    pinMode(25, OUTPUT);
     pinMode(24, OUTPUT);
     digitalWrite(25, HIGH);
     digitalWrite(24, LOW);
     srand(time(NULL));
     for (;;)//Loop
     {    
-        random_delay = rand();
+        random_delay = rand() % 1000 + 1 + 500;
 
         printf("%d\n", random_delay);
         fflush(stdout);
 
-        if (random_delay%2 == 0)
-        {
-            delay(500);
-        }
-        else
-        {
-            delay(1500);
-        }
+        delay(random_delay);
 
         digitalWrite(25, !digitalRead(25));
         digitalWrite(24, !digitalRead(24));
