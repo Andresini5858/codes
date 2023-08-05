@@ -13,12 +13,14 @@ uint8_t bandera = 0;
 pthread_t thread2;
 char input;
 
+void boton(void);
+void lectura(void *ptr);
+
 int main (void)
 {
     wiringPiSetup () ; //setup
     pinMode(23, INPUT);
-    //pinMode(3, OUTPUT);
-    softToneCreate(3);
+    softToneCreate(25);
     pullUpDnControl(23, PUD_UP);
     wiringPiISR(23, INT_EDGE_FALLING, boton);
 
@@ -26,7 +28,11 @@ int main (void)
     {    
         while (bandera == 1)
         {
-            softToneWrite(3, 2000);
+
+            softToneWrite(25, 1000);
+            if (bandera == 0){
+                softToneWrite(25, 0);
+            }
         }
     }
 
@@ -34,17 +40,20 @@ int main (void)
 }
 
 void boton(void){
-    delay(25);
+    if (bandera == 0){
     bandera = 1;
+    delay(100);
+    printf("ENTRE \n");
+    fflush(stdout);
     pthread_create(&thread2, NULL, (void*)&lectura, NULL);
-    wiringPiISR(23, INT_EDGE_FALLING, NULL);
+    }
 }
 
 void lectura(void *ptr)
 {
     while (1)
     {
-        printf("Ingrese el caracter 'p' para salir, 'r' para resumir, o 's' para salir ");
+        printf("Ingrese el caracter 'p' para salir, 'r' para resumir, o 's' para salir \n");
         fflush(stdout);
         scanf(" %c", &input);
 
@@ -55,7 +64,7 @@ void lectura(void *ptr)
 
         else if (input == 'r' && bandera == 0)
         {
-            bandera == 1;
+            bandera = 1;
         }
 
         else if (input == 's'){
