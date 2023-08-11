@@ -1,5 +1,6 @@
 /*
-Andres Lemus 21634
+Andres Lemus 21634 
+Laboratorio 5 Parte 2
 04/08/2023
 */
 #include <wiringPi.h>
@@ -8,6 +9,7 @@ Andres Lemus 21634
 #include <stdlib.h>
 #include <stdio.h>
 #include <pthread.h>
+#include <unistd.h>
 
 uint8_t bandera = 0;
 pthread_t thread2;
@@ -20,7 +22,6 @@ int main (void)
 {
     wiringPiSetup () ; //setup
     pinMode(23, INPUT);
-    softToneCreate(25);
     pullUpDnControl(23, PUD_UP);
     wiringPiISR(23, INT_EDGE_FALLING, boton);
 
@@ -29,9 +30,12 @@ int main (void)
         while (bandera == 1)
         {
 
-            softToneWrite(25, 1000);
+            digitalWrite(25, HIGH);
+            usleep(500);
+            digitalWrite(25, LOW);
+            usleep(500); 
             if (bandera == 0){
-                softToneWrite(25, 0);
+                digitalWrite(25, LOW);
             }
         }
     }
@@ -43,7 +47,6 @@ void boton(void){
     if (bandera == 0){
     bandera = 1;
     delay(100);
-    printf("ENTRE \n");
     fflush(stdout);
     pthread_create(&thread2, NULL, (void*)&lectura, NULL);
     }
@@ -57,17 +60,17 @@ void lectura(void *ptr)
         fflush(stdout);
         scanf(" %c", &input);
 
-        if (input == 'p')
+        if (input == 'p' || input == 'P')
         {
             bandera = 0;
         }
 
-        else if (input == 'r' && bandera == 0)
+        else if ((input == 'r' || input == 'R') && bandera == 0)
         {
             bandera = 1;
         }
 
-        else if (input == 's'){
+        else if (input == 's' || input == 'S'){
             exit(0);
         }
         
